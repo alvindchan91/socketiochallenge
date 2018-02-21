@@ -11,9 +11,6 @@ const io = sio(server);
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.send('hello');
-});
 
 const users = {};
 const messages = [];
@@ -33,6 +30,7 @@ io.on('connection', (socket) => {
   // step 4. Listen to event when user emits new message. Broadcast to everyone else with new message
   socket.on('message', (newMessage) => {
     messages.push({userId, message: newMessage.message});
+    console.log(messages);
     socket.broadcast.emit('message', {userId, message: newMessage.message});
   });
 
